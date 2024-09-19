@@ -1,6 +1,6 @@
-const http = require('http');
-const fs = require('fs');
-const url = require('url');
+import {http} from "http";
+import {fs} from 'fs';
+import {url} from 'url';
 
 http.createServer(function (req, res) {
     let name = url.parse(req.url, true).query.name;
