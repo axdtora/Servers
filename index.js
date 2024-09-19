@@ -1,4 +1,4 @@
-import http from "http";
+import http from 'http';
 import fs from 'fs';
 import url from 'url';
 
@@ -8,19 +8,27 @@ http.createServer(function (req, res) {
         name = 'world';
     }
     if (name === 'burningbird') {
-        const file = 'Lethat.png';
+        const file = 'Lethat.png';  // Убедитесь, что файл находится в правильной директории
         fs.stat(file, function (err, stat) {
             if (err) {
                 console.error(err);
-                res.writeHead(200, { 'Content-Type': 'text/plain' });
-                res.end("Sorry, Burningbird isn't around right now \n");
+                res.writeHead(404, { 'Content-Type': 'text/plain' });
+                res.end("Sorry, Burningbird isn't around right now\n");
             } else {
-                const img = fs.readFileSync(file);
-                res.writeHead(200, {
-                    'Content-Type': 'image/png',
-                    'Content-Length': stat.size
+                // Используем асинхронное чтение файла
+                fs.readFile(file, function (err, img) {
+                    if (err) {
+                        console.error(err);
+                        res.writeHead(500, { 'Content-Type': 'text/plain' });
+                        res.end('Error reading the image\n');
+                    } else {
+                        res.writeHead(200, {
+                            'Content-Type': 'image/png',
+                            'Content-Length': stat.size
+                        });
+                        res.end(img, 'binary');
+                    }
                 });
-                res.end(img, 'binary');
             }
         });
     } else {
