@@ -8,7 +8,7 @@ http.createServer(function (req, res) {
         name = 'world';
     }
     if (name === 'burningbird') {
-        const file = 'Lethat.png';  // Убедитесь, что файл находится в правильной директории
+        const file = './Lethat.png';  // Убедитесь, что файл находится в правильной директории
         fs.stat(file, function (err, stat) {
             if (err) {
                 console.error(err);
